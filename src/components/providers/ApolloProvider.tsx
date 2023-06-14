@@ -1,5 +1,6 @@
 "use client";
 
+import { GRAPHQL_ENDPOINT } from "@/constants";
 import {
   ApolloClient,
   ApolloLink,
@@ -11,13 +12,10 @@ import {
   NextSSRInMemoryCache,
   SSRMultipartLink,
 } from "@apollo/experimental-nextjs-app-support/ssr";
-import { setVerbosity } from "ts-invariant";
-
-setVerbosity("debug");
 
 function makeClient() {
   const httpLink = new HttpLink({
-    uri: "http://localhost:3000/api/graphql",
+    uri: GRAPHQL_ENDPOINT,
     fetchOptions: { cache: "no-store" },
   });
 
@@ -39,7 +37,7 @@ function makeSuspenseCache() {
   return new SuspenseCache();
 }
 
-export function ApolloWrapper({ children }: React.PropsWithChildren) {
+export function ApolloProvider({ children }: React.PropsWithChildren) {
   return (
     <ApolloNextAppProvider
       makeClient={makeClient}

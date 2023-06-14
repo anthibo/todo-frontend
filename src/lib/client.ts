@@ -2,7 +2,7 @@ import { GRAPHQL_ENDPOINT } from "@/constants";
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 import { registerApolloClient } from "@apollo/experimental-nextjs-app-support/rsc";
 
-export const { getClient } = registerApolloClient(() => {
+const { getClient } = registerApolloClient(() => {
   return new ApolloClient({
     cache: new InMemoryCache(),
     link: new HttpLink({
@@ -14,3 +14,5 @@ export const { getClient } = registerApolloClient(() => {
     }),
   });
 });
+
+export const client = getClient()
