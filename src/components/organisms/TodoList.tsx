@@ -1,15 +1,24 @@
-import TodoRow from '@/components/molecules/TodoRow';
-import { listTodosQuery } from '@/lib/queries/todo.query';
-import CreateTodo from '../molecules/CreateTodo';
+'use client'
 
-export default async function TodoList() {
-    const todos = await listTodosQuery()
+import TodoRow from '@/components/molecules/TodoRow';
+import CreateTodo from '../molecules/CreateTodo';
+import { Todo } from '@/types/todo.type';
+import { useAppStore } from '@/lib/state/store';
+import { useEffect } from 'react';
+type TodoListProps = {
+    todos: Todo[]
+}
+export default function TodoList({ todos }: TodoListProps) {
+    const { setTodos, todos: savedTodos } = useAppStore();
+    useEffect(() => {
+        setTodos(todos);
+    }, [todos])
+
     return (
-        <div className="flex flex-col items-center">
-                <CreateTodo />
-            <h1 className="text-3xl font-bold my-4">Todo List</h1>
+        <div>
+            <CreateTodo />
             <div className="w-full max-w-md">
-                {todos && todos.map((todo, i) => (
+                {savedTodos && savedTodos.map((todo, i) => (
                     <TodoRow todo={todo} key={i} />))}
             </div>
         </div>

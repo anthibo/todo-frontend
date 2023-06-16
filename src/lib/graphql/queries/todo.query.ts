@@ -4,7 +4,7 @@ import { client } from "../client"
 
 
 export const listTodosQuery = async () => {
-    const listTodosQuery = gql`query{
+    const LIST_TODOS_QUERY = gql`query{
         todos{
         id
         createdAt
@@ -16,12 +16,11 @@ export const listTodosQuery = async () => {
         }
     }
   }`
-    const { data: { todos }, error } = await client.query<TodoQueryResponse>({ query: listTodosQuery })
+    const { data: { todos }, error } = await client.query<TodoQueryResponse>({ query: LIST_TODOS_QUERY })
 
     // TODO: Implement global error handling
     if (error) {
         throw new Error(error.message)
     }
-
     return todos
 }

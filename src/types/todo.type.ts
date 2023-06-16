@@ -12,9 +12,20 @@ export type Todo = {
     user: User;
 }
 
-export type CreateTodo = {
+export type TodoSlice = {
+    todos: Todo[]
+    setTodos: (todos: Todo[]) => void
+    addTodo: (todo: Todo) => void
+    removeTodo: (todoId: string) => void
+}
+
+export type CreateTodoDto = {
     userId: string
     title: string;
+}
+
+export type CreateTodoResponse = {
+    createTodo: Todo
 }
 
 export type UpdateTodoStatus = {
