@@ -1,35 +1,21 @@
-import { getClient } from '@/lib/client'
-import { gql } from '@apollo/client'
-import {
-  useFragment,
-  useQuery,
-  useSuspenseQuery,
-} from "@apollo/experimental-nextjs-app-support/ssr";
-import Image from 'next/image'
+import TodoList from '@/components/organisms/TodoList';
+import { listTodosQuery } from '@/lib/graphql/queries/todo.query';
+import { Suspense } from 'react';
 
 export default async function Home() {
-  const query = gql`query{
-        todos{
-        id
-        createdAt
-        updatedAt
-        title
-        user{
-            id
-            name
-        }
-    }
-  }`
-  const client = getClient()
-  const todos = await client.query({ query })
-  console.log(todos)
+  const todos = await listTodosQuery()
   return (
-    <div>
-      {todos && todos.data.todos.map((todo: any) => (
-        <div key={todo.id}>
-          <h1>{todo.title}</h1>
-        </div>
-      ))}
+    <div className="container mx-auto">
+      <div className="flex flex-col items-center">
+        <h1 className="text-3xl font-bold my-4">Todo List</h1>
+        <Suspense fallback={<>...loading</>}>
+          {todos && (
+            <TodoList todos={todos} />
+          )}
+        </Suspense>
+
+      </div>
     </div>
+
   )
 }
